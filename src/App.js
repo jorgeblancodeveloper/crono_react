@@ -52,8 +52,8 @@ class App extends React.Component {
   };
 
   setSession = a => {
-    console.log("me llega ",a)
-    store.dispatch(actions.setSession(a));
+    console.log("me llega ",store.getState().actual_session)
+    store.dispatch(actions.setSession({...store.getState().actual_session,...a}));
     store.dispatch(actions.navigateTo("main"))
   };
 
