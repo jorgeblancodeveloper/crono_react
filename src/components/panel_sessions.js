@@ -1,10 +1,23 @@
 import React from "react";
 import { Button, TimeFormat } from './components';
+
 import store from '../store';
+import { actions } from "../redux/reducer";
 class PanelSessions extends React.Component {
   constructor(props) {
     super(props);
   }
+  setSession = a => {
+    store.dispatch(actions.setSession({ ...store.getState().actual_session, ...a }));
+    store.dispatch(actions.navigateTo("main"))
+  };
+  removeSession = a => {
+    store.dispatch(actions.setState("domremove", a))
+    //this.forceUpdate();
+    setTimeout(() => {
+      store.dispatch(actions.removeSession(a))
+    }, 1000)
+  };
 
   render() {
     const mysessions = this.props.mystate.sessions;
@@ -19,10 +32,9 @@ class PanelSessions extends React.Component {
           <p><b>Combate:</b>  <TimeFormat value={mysessions[myname].combate} /></p>
         </div>
       )
-      console.log("añado "+store.getState().domadd)
       return (<div key={myname} className={store.getState().domremove == myname ? "delete" : store.getState().domadd == myname ? "add" : ""}>
-        <Button full onClick={() => this.props.setSession(mysessions[myname])}>{content} </Button>
-        <Button onClick={() => { this.props.removeSession(myname)}} > ×</Button>
+        <Button full onClick={() => this.setSession(mysessions[myname])}>{content} </Button>
+        <Button onClick={() => { this.removeSession(myname)}} > ×</Button>
       </div>
       )
     });

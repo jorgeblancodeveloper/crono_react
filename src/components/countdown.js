@@ -16,7 +16,7 @@ const CountDown = (props) => {
 
 
   React.useEffect(() => {
-    console.log("usefefect " + myplay)
+
     let timer = (counter > 0) && setInterval(() => { console.log(is_paused); if (myplay) setCounter(counter - 1) }, 1000);
     return () => clearInterval(timer);
   }, [counter]);

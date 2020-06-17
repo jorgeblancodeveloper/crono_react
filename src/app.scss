@@ -182,7 +182,7 @@ section{
 
 .navigator{
   display:flex;
-  .component-button{
+  .component-button, Link{
 flex:1;
 height:40px;
 &.active{
