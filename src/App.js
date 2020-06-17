@@ -16,8 +16,8 @@ class App extends React.Component {
   onUnload = e => {
     console.log("medesmonto")
     // the method that will be used for both add and remove event
-   // localStorage.setItem('my_sessions', JSON.stringify(store.getState().sessions));
-   // localStorage.setItem('my_actual_session', JSON.stringify(store.getState().actual_session));
+    localStorage.setItem('my_sessions', JSON.stringify(store.getState().sessions));
+    localStorage.setItem('my_actual_session', JSON.stringify(store.getState().actual_session));
  }
 
   componentDidMount() {
@@ -29,7 +29,7 @@ class App extends React.Component {
     store.dispatch(actions.setState("sessions",    JSON.parse(localStorage.getItem('my_sessions')) || store.getState().sessions))
    
    if (localStorage.getItem('my_actual_session')){
-   // store.dispatch(actions.setState("actual_session",    JSON.parse(localStorage.getItem('my_actual_session'))))
+    store.dispatch(actions.setState("actual_session",    JSON.parse(localStorage.getItem('my_actual_session'))))
 
    }
 
