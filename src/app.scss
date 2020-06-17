@@ -39,8 +39,7 @@ body {
 .number{
   font-family:'Share Tech Mono';
   font-weight:bold;
-  .panel_config &{
-  font-size: 2.5em;
+  .panel_main &{
   margin-left: 0.1em;
 }
 }
@@ -50,8 +49,8 @@ code {
 }
 #root{
   height:100vh;
-  max-height:700px;
-  
+  max-height:1200px;
+  overflow:hidden
 }
 section{
   display:flex;
@@ -64,6 +63,7 @@ h1,h2,h3{
 }
 h1.interfaz {
   flex: 1;
+  position:absolute;
 }
 %com_button {
   height: 50px;
@@ -79,23 +79,49 @@ h1.interfaz {
   justify-content: center;
   font-size: 31px;
   font-weight: bold;
-//  color: $button-background;
+  background: #747fad;
+  color: #fff;
+}
+.counter{
+  flex: 1;
+    height: 69%;
+    transition: all cubic-bezier(0.26, -0.42, 0.29, 1.06) 0.4s;
+    .number{    font-size: 3em;}
+
+    .component-button{
+      height: 100%;;
+    }
+}
+.counter.II {
+  height: 100%;
+ .component-button{
+  background: green;
+  color: #FFF
+ }
+  ~.row{
+max-height:0px;
+}
+
+}
+.panel_main{
+  flex:1
 }
 .component-button{
   @extend %com_button;
   background: linear-gradient(140deg, #f3f3f3 0%, #ffffff 100%);
 overflow:hidden;
 opacity:1; 
-
+padding-left: 0.7em;
+padding-right: 0.7em;
   .delete &{
     height:0px !important;
     opacity:0;
   }
   .add &{
-    height:0px !important;
+   // height:0px !important;
     animation: example 1s 1;
     animation-fill-mode: forwards;
-     ;
+     
     @keyframes example {
       from {height:0px}
       to {height:50px}
@@ -106,7 +132,7 @@ transition:all cubic-bezier(0.33,-0.12, 0.31, 0.99) 0.5s;
 
   &.full{
     flex:1;
-    padding:10px;
+    padding:0 10px;
   div{
       text-align: right;
       line-height: 0.8;
@@ -125,6 +151,7 @@ transition:all cubic-bezier(0.33,-0.12, 0.31, 0.99) 0.5s;
   overflow: hidden;
   border-top: 1px solid rgba(0,0,0,0.05);
   margin-top: -1px;
+  transition:linear all 0.3s;
 
 h3{
   flex:5;
@@ -146,11 +173,11 @@ section{
   align-items: center;
   justify-content: center;
   cursor:pointer;
+  display: flex;
+  flex-direction: column;
 
-  &:hover{
-      background: darken( $button-background, 40% );
-      color: $app-background
-  }
+
+
 }
 
 .navigator{
@@ -158,11 +185,18 @@ section{
   .component-button{
 flex:1;
 height:40px;
+&.active{
+  background: black;
+  color: #fff
+}
   }
 }
 
 [class *= 'panel'] {
-  filter: drop-shadow(2px 4px 16px rgba(0,0,0,0.1))
+  filter: drop-shadow(2px 4px 16px rgba(0,0,0,0.1));
+  flex:1;
+  display: flex;
+  flex-direction: column;
 }
 .panel_sessions{
   >div{
@@ -170,6 +204,7 @@ height:40px;
     display: flex;
   }
   .component-button{
+
 p{
   display:inline-block;
 margin: auto 5px;
@@ -177,7 +212,15 @@ font-size:12px;
 }
   }
 }
-
+.panel_config{
+  justify-content: flex-end;
+  display: flex;
+  flex-direction: column;
+  h3 div{
+    margin-left: 0.3em;
+    color: #1f2e6d;
+  }
+}
 .panel_player{
     .component-button{
 flex:1;
@@ -193,6 +236,7 @@ height:80px;
   justify-content: center;
   background: rgba(0,0,0,0.5);
   height: 100%;
+  z-index:99;
    >div {
      text-align:center;
     background: #fff;
@@ -200,4 +244,10 @@ height:80px;
     box-shadow: 0 0 15px #000;
     border: none;
 }
+}
+
+input{
+  padding: 0.7em;
+  margin: 0.3em;
+  border: none;
 }

@@ -1,18 +1,17 @@
 import React from "react";
-import {Button} from './components';
+import store from '../store';
+import {CountDown} from './countdown';
 
-class  PanelPlayer extends React.Component {
-    constructor(props) {
-        super(props);
-      }
+const  PanelPlayer =(props)=> {
 
-  render(){
+
+
   return  (
         <div className="panel_player">
-        <Button name="▶"/>
+          <CountDown tiempo={{"restante":store.getState().actual_session.combate}}></CountDown>
+  
         </div>
       );
-  }
   }
 
   export {PanelPlayer}
