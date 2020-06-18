@@ -9,7 +9,7 @@ class PanelSessions extends React.Component {
   }
   setSession = a => {
     store.dispatch(actions.setSession({ ...store.getState().actual_session, ...a }));
-    store.dispatch(actions.navigateTo("main"))
+    this.props.history.push("/main")
   };
   removeSession = a => {
     store.dispatch(actions.setState("domremove", a))
@@ -20,7 +20,7 @@ class PanelSessions extends React.Component {
   };
 
   render() {
-    const mysessions = this.props.mystate.sessions;
+    const mysessions = store.getState().sessions;
     const lista = Object.keys(mysessions).map(myname => {
       const content = (
         <div>
@@ -32,7 +32,7 @@ class PanelSessions extends React.Component {
           <p><b>Combate:</b>  <TimeFormat value={mysessions[myname].combate} /></p>
         </div>
       )
-      return (<div key={myname} className={store.getState().domremove == myname ? "delete" : store.getState().domadd == myname ? "add" : ""}>
+      return (<div key={myname} className= {store.getState().domremove == myname ? "delete" : store.getState().domadd == myname ? "add" : ""}>
         <Button full onClick={() => this.setSession(mysessions[myname])}>{content} </Button>
         <Button onClick={() => { this.removeSession(myname)}} > ×</Button>
       </div>

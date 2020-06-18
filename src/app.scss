@@ -34,7 +34,11 @@ body {
 *{
   margin:0;
   padding:0;
-  box-sizing:border-box
+  box-sizing:border-box;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+a{
+  text-decoration: none;;
 }
 .number{
   font-family:'Share Tech Mono';
@@ -90,19 +94,35 @@ h1.interfaz {
 
     .component-button{
       height: 100%;;
+      position: relative;
+      z-index: 9;
     }
 }
-.counter.II {
-  height: 100%;
- .component-button{
+.counter{
+  &.combate , &.rest,&.paused{
+    height: 100%;
+    .component-button{
+      font-size: 2em;
+      color:#FFF;
+      background:transparent;
+     }
+      ~.row{
+    max-height:0px;
+    }
+  }
+&.combate {
+
   background: green;
-  color: #FFF
- }
-  ~.row{
-max-height:0px;
-}
+
 
 }
+
+&.rest {  background: red; }
+
+
+&.paused {background: #000;}
+}
+
 .panel_main{
   flex:1
 }
@@ -121,7 +141,7 @@ padding-right: 0.7em;
    // height:0px !important;
     animation: example 1s 1;
     animation-fill-mode: forwards;
-     
+
     @keyframes example {
       from {height:0px}
       to {height:50px}
@@ -185,19 +205,43 @@ section{
   .component-button, Link{
 flex:1;
 height:40px;
+transition: background 0.3s cubic-bezier(0.07, 0.49, 0.31, 0.99);
 &.active{
   background: black;
   color: #fff
 }
-  }
-}
 
+
+
+  }
+
+
+}
+.fade_out .active{
+  background: transparent !important;
+}
+@keyframes fade_in {
+  from {opacity: 0; transform:scale(0.9)}
+  to {opacity: 1;; transform:scale(1)}
+}
+@keyframes fade_out {
+  from {opacity: 1; transform:scale(1)}
+  to {opacity: 0 ;; transform:scale(0.9)}
+}
+.fade_out [class *= 'panel'] {
+  animation-name: fade_out;
+  animation-fill-mode: forwards;
+  animation-duration: 0.25s;
+}
 [class *= 'panel'] {
   filter: drop-shadow(2px 4px 16px rgba(0,0,0,0.1));
   flex:1;
-  display: flex;
+  display: flex;  
   flex-direction: column;
+  animation-name: fade_in;
+  animation-duration: 0.3s;
 }
+
 .panel_sessions{
   >div{
     flex-wrap: nowrap;
@@ -250,4 +294,12 @@ input{
   padding: 0.7em;
   margin: 0.3em;
   border: none;
+}
+.layer{
+  position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    background: rgba(0, 0, 0, 0.31);
 }

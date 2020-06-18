@@ -12,13 +12,12 @@ class PanelConfig extends React.Component {
     const limit_sounds = mp3list.length;
     return (
       <div className="panel_config">
-
         <div className="row">
           <Button
             name="-"
             onClick={() => changeStateLimit("sounds_preaviso", -1, limit_sounds)}
           />
-          <h3>Sonido Preaviso: <div>  {mp3list[this.props.mystate.actual_session.sounds_preaviso]}{/*/this.mp3list[this.props.mystate.actual_session.sounds.asalto]*/}</div></h3>
+          <h3>Preaviso: <div>  {mp3list[this.props.mystate.actual_session.sounds_preaviso]}{/*/this.mp3list[this.props.mystate.actual_session.sounds.asalto]*/}</div></h3>
           <Button
             name="+"
             onClick={() => changeStateLimit("sounds_preaviso", 1, limit_sounds)}

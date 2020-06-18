@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { Route, Switch, browserHistory } from 'react-router-dom';
+import { Route, Switch, browserHistory,BrowserRouter } from 'react-router-dom';
+
 import { PanelMain } from "./components/panel_main";
 import * as Main from './views/main'
-import { Modal } from "./components/modal";
+
 import { PanelPlayer } from "./components/panel_player";
 import { PanelConfig } from "./components/panel_config";
 import { PanelSessions } from "./components/panel_sessions";
@@ -13,9 +14,12 @@ import store from './store';
 import { actions } from "./redux/reducer";
 
 import "./App.css";
-const myRef = React.createRef();
-class App extends React.Component {
 
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {fade: false};
+  }
   onUnload = e => {
     localStorage.setItem('my_sessions', JSON.stringify(store.getState().sessions));
     localStorage.setItem('my_actual_session', JSON.stringify(store.getState().actual_session));
@@ -33,58 +37,30 @@ class App extends React.Component {
     window.removeEventListener("beforeunload", this.onUnload);
   }
 
-  navigateTo = (a, b) => {
-    console.log("paso ", this.props)
+  navigateTo = (e) => {
+   
+   this.setState({fade: e});
     // store.dispatch(actions.navigateTo(a));
   };
 
 
-  askName = async function () {
-    const modal = myRef.current;
-    store.dispatch(actions.setState("modal", true))
-    const result = await modal.sendSessionName();
-    store.dispatch(actions.setState("modal", false))
-    return result
-  }
-
-
-  addSession = async () => {
-    const myname = await this.askName();
-    store.dispatch(actions.setState("domadd", myname))
-    setTimeout(() => {
-      store.dispatch(actions.setState("domadd", ""))
-    }, 1000)
-    store.dispatch(actions.addSession(myname));
-    store.dispatch(actions.navigateTo("sessions"))
-  };
 
 
 
   render() {
     return (
-      <section>
+      <section className={this.state.fade && "fade_out" }>
+        <BrowserRouter>
         <Navigator
           location={store.getState().location}
           navigateTo={a => {
             this.navigateTo(a);
           }}
         />
-        <Modal
-          accept={(e) => {/*  this.setState("modal", e)*/store.dispatch(actions.setstate("modal",e)) }}
-          ref={myRef}
-          showme={store.getState().modal}
-        > Nombre de la sesión </Modal>
+
 
         <Switch>
-          <Route path="/main" render={() => <PanelMain
-            changeState={(a, b) => {
-              changeState(a, b);
-            }}
-            addSession={a => {
-              this.addSession(a);
-            }}
-            mystate={store.getState()}
-          />} />
+          <Route path="/main" component={PanelMain} />
 
           <Route path="/config" render={() => <PanelConfig
             changeState={(a, b) => {
@@ -97,32 +73,12 @@ class App extends React.Component {
             mystate={store.getState()}
           />} />
 
-          <Route path="/sessions" render={() => <PanelSessions
-            setSession={a => {
-              this.setSession(a);
-            }}
-            removeSession={a => {
-              this.removeSession(a);
-            }}
-            mystate={store.getState()}
-          />} />
-          <Route path="/player" render={() => <PanelPlayer
-            changeState={(a, b) => {
-              changeState(a, b);
-            }}
-            mystate={store.getState()}
+          <Route path="/sessions"  component={PanelSessions}/>
+          <Route path="/player" component={PanelPlayer} />
 
-          />} />
-          <Route path="/" render={() => <PanelMain
-            changeState={(a, b) => {
-              changeState(a, b);
-            }}
-            addSession={a => {
-              this.addSession(a);
-            }}
-            mystate={store.getState()}
-          />} />
+          <Route path="/" component={PanelMain} />
         </Switch>
+    </BrowserRouter>
       </section>
 
     );

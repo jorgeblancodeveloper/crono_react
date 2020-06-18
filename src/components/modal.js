@@ -6,7 +6,7 @@ class Modal extends React.Component {
         super(props);
         this.state = {
             show: false,
-            name: "dummy",
+            name: "Sesión",
             outsideResolve: undefined,
         };
     }
@@ -29,6 +29,7 @@ class Modal extends React.Component {
                     <div className="row">
                         <input type="text" id="name" name="name" onChange={this._handleChange.bind(this)} defaultValue={this.state.name} />
                         <Button onClick={() => this.state.outsideResolve(this.state.name)}>Aceptar</Button>
+              
                     </div>
                     <Button onClick={() => this.props.accept(false)}> Cancelar </Button>
               
