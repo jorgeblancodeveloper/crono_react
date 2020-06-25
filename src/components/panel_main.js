@@ -2,6 +2,7 @@ import React from "react";
 import store from '../store';
 import { Button, TimeFormat } from './components';
 import { CountDown } from "./countdown";
+import { play_sound } from "./sounds";
 import { changeStateLimit, changeState } from './utils.js';
 import { Modal } from "./modal";
 import { actions } from "../redux/reducer";
@@ -33,6 +34,7 @@ class PanelMain extends React.Component {
   };
 
   render() {
+
     const preaviso = [
       "Ninguno",
       "Asalto",

@@ -1,68 +1,71 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, TimeFormat } from './components';
-
+var outsideResolve;
 let mytimer;
 const CountDown = (props) => {
-  const [counter, setCounter] = React.useState(props.status.fight);
+  const [counter_now, setCounter_now] = React.useState(props.status.fight);
   let [my_status, setmy_status] = React.useState("clear");
   let [my_round, setmyRound] = React.useState(1);
-  const [counter_fight, setCounter_fight] = React.useState(props.status.fight);
-  const [counter_rest, setCounter_rest] = React.useState(props.status.rest);
-  const [is_paused, setPaused] = React.useState(true);
+ // const [counter_fight, setCounter_fight] = React.useState(props.status.fight);
+//>  const [counter_rest, setCounter_rest] = React.useState(props.status.rest);
+  const [is_paused, setPaused] = React.useState(false);
 
-  const espera = (ms, fase) => new Promise(resuelve => {
-    my_status = fase;
-    setmy_status(fase)
+  React.useEffect(() => {  setCounter_now(props.status.fight) }, [props.status.fight]);
+ // React.useEffect(() => { setCounter_rest(props.status.rest) }, [props.status.rest]);
+
+  const starttimer = () => {
+    if (my_status === "clear") {
+      init_counter();
+    } else {
+      if (is_paused) {
+        init_counter(my_round);
+      } else {
+        clearInterval(mytimer);
+      }
+      setPaused(!is_paused);
+    }
+  }
+
+  const init_counter = async (myround) => {
+    for (let n = (myround? myround:1); n <= props.status.rounds; n++) {
+      setmyRound(n);
+      setmy_status( "combate");
+      const result  = await espera(counter_now);
+      setmy_status( "rest");
+      await espera(props.status.rest)
+    };
+  }
+
+  const espera = (ms) => new Promise(resuelve => {
+    outsideResolve = resuelve; 
     mytimer = setInterval(
-      () => {
-        setCounter(ms--)
+      (e) => {
+        setCounter_now(ms--);
+        console.log("trabajando")
         if (ms == 0) {
           clearInterval(mytimer);
-          resuelve(fase)
+          resuelve()
         };
-      }, 30)
+      }, 300)
   }
 
   );
-  const starttimer = () => {
-    setPaused(!is_paused);
-    if (!is_paused) {
-      my_status = "paused";
-      setmy_status("paused")
-      clearInterval(mytimer);
-    } else if (my_status === "clear") {
-      init_counter();
-    } else {
-      init_counter();
-    }
-  }
-  const borra = () => {
 
-    setmy_status("clear")
+  const borra = () => {
+    setmy_status("clear");
+    setPaused(false);
+    setCounter_now(props.status.fight)
   }
-  const init_counter = async () => {
-    for (let n = 1; n <= props.status.rounds; n++) {
-      setmyRound(n);
-      await espera(counter, "combate")
-      await espera(counter_rest, "rest")
-    };
-    await function () { };
-  }
-  React.useEffect(() => { console.log("props", props) }, []);
-  React.useEffect(() => { setCounter_fight(props.status.fight); setCounter(props.status.fight) }, [props.status.fight]);
-  React.useEffect(() => { setCounter_rest(props.status.rest) }, [props.status.rest]);
 
   let mysimbol = is_paused ? "▶" : "II";
-  let percent = 100 - parseInt((counter / (my_status=="rest"?props.status.rest :props.status.fight )) * 100);
-  var style = {
-    height: percent + 'vh',
-  };
-  let visual_round = my_status != "clear" && <div class="view_round">{my_round}</div>
+  let percent = 100 - parseInt((counter_now / (my_status == "rest" ? props.status.rest : props.status.fight)) * 100);
+  let visual_round = my_status != "clear" && <div className="view_round">{my_round}</div>
+  let misclases = is_paused ? my_status + " counter paused" : my_status + " counter "
   return (
-    <div className={my_status + " counter " } >
+    <div className={misclases}>
       {visual_round}
-      {my_status != "clear" && <div className="layer" style={style}></div>}
-      <Button onClick={starttimer}><TimeFormat value={counter} />{mysimbol} <br /></Button>
+      {my_status != "clear" && <div className="layer" style={{ height: percent + 'vh' }}></div>}
+      <Button onClick={starttimer}><TimeFormat value={counter_now} />{mysimbol} <br />{is_paused}</Button>
       {is_paused && my_status != "clear" && <div className="cancelar">  <Button onClick={borra}> cancelar</Button></div>}
     </div>
   )

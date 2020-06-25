@@ -2,6 +2,7 @@
 import React from "react";
 import store from '../store';
 import { actions } from "../redux/reducer";
+import { play_sound } from "./sounds";
 const changeState = (a, b) => {
     store.dispatch(actions.changeState(a, b))
   };
@@ -19,7 +20,11 @@ const changeState = (a, b) => {
     setState("actual_session",{...store.getState().actual_session,[state]:0}):
     (value+store.getState().actual_session[state])<0?
     setState("actual_session",{...store.getState().actual_session,[state]:limit-1}):
-    changeState(state, value)
+    changeState(state, value);
+    if (state.indexOf("sounds")!=-1){
+      play_sound(store.getState().actual_session[state])
+    }
+
   }
 
   export {changeStateLimit}

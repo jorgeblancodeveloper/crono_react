@@ -100,7 +100,8 @@ h1.interfaz {
 }
 .counter{
   &.combate , &.rest,&.paused{
-    height: 100%;
+    height: 100vh;
+    transform: translatey(-41px);
     .component-button{
       font-size: 2em;
       color:#FFF;

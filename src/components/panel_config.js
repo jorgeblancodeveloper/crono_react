@@ -1,7 +1,9 @@
 import React from "react";
 import { Button, TimeFormat } from './components';
-import { soundLibrary } from "../resources/sound_library"
+import { soundLibrary } from "../resources/sound_library";
+
 import { changeStateLimit } from './utils.js';
+
 class PanelConfig extends React.Component {
   constructor(props) {
     super(props);
@@ -10,8 +12,16 @@ class PanelConfig extends React.Component {
   render() {
     const mp3list = soundLibrary.map((e) => { return e.name })
     const limit_sounds = mp3list.length;
+
     return (
       <div className="panel_config">
+                <div className="row">
+          <Button full
+            name="Subir sonido-"
+            onClick={() => changeStateLimit("sounds_preaviso", -1, limit_sounds)}
+          />
+
+        </div>
         <div className="row">
           <Button
             name="-"

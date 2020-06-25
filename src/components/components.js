@@ -1,23 +1,17 @@
 import React from "react";
 
-const Button = ({ full, name,active, onClick,...props }) => {
-  const className = [
-    "component-button",
-  ];
+const Button = ({ full, name, active, onClick, ...props }) => {
+
   const url = "./media/click.mp3";
   const audio = new Audio(url);
-  audio.crossOrigin = 'anonymous';
-const playme=()=>{
+  const playme = () => {
+    audio.play();
+    console.log("pasoporaquin")
+    onClick()
+  }
 
-  console.log("elotro")
-  audio.play().catch(function(e){
-    console.log("eeoro",e)
-  })
-  onClick()
-}
-  
   return (
-    <div className={className.join(" ").trim() + (full ? ' full' : '') +  (active ? ' active' : '')}
+    <div className={"component-button" + (full ? ' full' : '') + (active ? ' active' : '')}
       onClick={playme}>
       {name}
       {props.children}
