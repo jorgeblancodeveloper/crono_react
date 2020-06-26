@@ -1,21 +1,22 @@
 import React from "react";
-import { Button, TimeFormat } from './components';
+import { Button, TimeFormat } from '../components';
+import { play_sound } from "../sounds/sounds";
 var outsideResolve;
 let mytimer;
 const CountDown = (props) => {
-  const [counter_now, setCounter_now] = React.useState(props.status.fight);
+ // const [counter_now, setCounter_now] = React.useState(props.status.fight);
+ console.log("arranco ?",props.data)
+  const [counter_now, setCounter_now] = React.useState(props.data.combate);
   let [my_status, setmy_status] = React.useState("clear");
   let [my_round, setmyRound] = React.useState(1);
- // const [counter_fight, setCounter_fight] = React.useState(props.status.fight);
-//>  const [counter_rest, setCounter_rest] = React.useState(props.status.rest);
   const [is_paused, setPaused] = React.useState(false);
 
-  React.useEffect(() => {  setCounter_now(props.status.fight) }, [props.status.fight]);
- // React.useEffect(() => { setCounter_rest(props.status.rest) }, [props.status.rest]);
+  React.useEffect(() => {  setCounter_now(props.data.combate) }, [props.data.combate]);
 
   const starttimer = () => {
     if (my_status === "clear") {
       init_counter();
+
     } else {
       if (is_paused) {
         init_counter(my_round);
@@ -27,12 +28,20 @@ const CountDown = (props) => {
   }
 
   const init_counter = async (myround) => {
-    for (let n = (myround? myround:1); n <= props.status.rounds; n++) {
+    for (let n = (myround? myround:1); n <= props.data.asaltos; n++) {
       setmyRound(n);
       setmy_status( "combate");
-      const result  = await espera(counter_now);
-      setmy_status( "rest");
-      await espera(props.status.rest)
+      play_sound(props.data.sounds_asalto);
+      await espera(counter_now);
+      console.log("veo ",my_round,props.data.asaltos)
+      if (n<props.data.asaltos){
+       setmy_status( "rest");
+      play_sound(props.data.sounds_descanso)
+      await espera(props.data.descanso) 
+    } else {
+      play_sound(props.data.sounds_fincombate)
+      borra();
+      }
     };
   }
 
@@ -54,12 +63,12 @@ const CountDown = (props) => {
   const borra = () => {
     setmy_status("clear");
     setPaused(false);
-    setCounter_now(props.status.fight)
+    setCounter_now(props.data.combate)
   }
 
   let mysimbol = is_paused ? "▶" : "II";
-  let percent = 100 - parseInt((counter_now / (my_status == "rest" ? props.status.rest : props.status.fight)) * 100);
-  let visual_round = my_status != "clear" && <div className="view_round">{my_round}</div>
+  let percent = 100 - parseInt((counter_now / (my_status == "rest" ? props.data.descanso : props.data.combate)) * 100);
+let visual_round = my_status != "clear" && <div className="view_round">{my_round}/{props.data.asaltos}</div>
   let misclases = is_paused ? my_status + " counter paused" : my_status + " counter "
   return (
     <div className={misclases}>

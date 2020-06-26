@@ -1,11 +1,11 @@
 import React from "react";
 
-const Button = ({ full, name, active, onClick, ...props }) => {
+const Button = ({ full, name, active, mute, onClick, ...props }) => {
 
   const url = "./media/click.mp3";
   const audio = new Audio(url);
   const playme = () => {
-    audio.play();
+    if (!mute) audio.play();
     console.log("pasoporaquin")
     onClick()
   }

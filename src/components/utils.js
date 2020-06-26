@@ -2,7 +2,7 @@
 import React from "react";
 import store from '../store';
 import { actions } from "../redux/reducer";
-import { play_sound } from "./sounds";
+import { play_sound } from "./sounds/sounds";
 const changeState = (a, b) => {
     store.dispatch(actions.changeState(a, b))
   };

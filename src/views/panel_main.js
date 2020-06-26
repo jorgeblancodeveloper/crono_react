@@ -1,10 +1,10 @@
 import React from "react";
 import store from '../store';
-import { Button, TimeFormat } from './components';
-import { CountDown } from "./countdown";
-import { play_sound } from "./sounds";
-import { changeStateLimit, changeState } from './utils.js';
-import { Modal } from "./modal";
+import { Button, TimeFormat } from '../components/components';
+import { CountDown } from "../components/countdown/countdown";
+
+import { changeStateLimit, changeState } from '../components/utils.js';
+import { Modal } from "../components/modal/modal";
 import { actions } from "../redux/reducer";
 
 const myRef = React.createRef();
@@ -57,11 +57,8 @@ class PanelMain extends React.Component {
         > Nombre de la sesión </Modal>
         <div className="panel_main">
           <CountDown
-            status={{
-              "rest": store.getState().actual_session.descanso,
-              "fight": store.getState().actual_session.combate,
-              "rounds": store.getState().actual_session.asaltos
-            }}
+
+            data={store.getState().actual_session}
           ></CountDown>
           <div className="row">
             <Button
@@ -78,6 +75,7 @@ class PanelMain extends React.Component {
           <div className="row">
             <Button
               value={-30}
+
               name="-"
               onClick={() => changeState("combate", -10)}
             />

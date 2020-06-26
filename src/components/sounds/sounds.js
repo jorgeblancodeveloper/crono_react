@@ -11,7 +11,7 @@ const play_sound = (a)=>{
 
 export default play_sound;*/
 
-import { soundLibrary } from "../resources/sound_library";
+import { soundLibrary } from "../../resources/sound_library";
 
 
 let sounds= [];
@@ -26,7 +26,8 @@ const play_sound = function(a){
        // sounds[el].play()
        el.pause();}
     );
-    console.log("toco ",a)
+    console.log("toco ",a);
+    sounds[a].currentTime = 0;
     sounds[a].play()
 }
 

@@ -2,18 +2,18 @@ import React from "react";
 import { connect } from 'react-redux';
 import { Route, Switch, browserHistory,BrowserRouter } from 'react-router-dom';
 
-import { PanelMain } from "./components/panel_main";
-import * as Main from './views/main'
+import { PanelMain } from "./views/panel_main";
+
 
 import { PanelPlayer } from "./components/panel_player";
-import { PanelConfig } from "./components/panel_config";
-import { PanelSessions } from "./components/panel_sessions";
+import { PanelConfig } from "./views/panel_config";
+import { PanelSessions } from "./views/panel_sessions";
 import {setState, changeState} from './components/utils.js';
-import { Navigator } from "./components/navigator";
+import { Navigator } from "./components/navigator/navigator";
 import store from './store';
 import { actions } from "./redux/reducer";
 
-import "./App.css";
+//import "./App.css";
 
 class App extends React.Component {
   constructor() {

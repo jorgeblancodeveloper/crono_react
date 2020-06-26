@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, TimeFormat } from './components';
+import { Button, TimeFormat } from '../components/components';
 
 import store from '../store';
 import { actions } from "../redux/reducer";

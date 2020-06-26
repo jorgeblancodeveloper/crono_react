@@ -1,6 +1,6 @@
 import React from "react";
 import store from '../store';
-import {CountDown} from './countdown';
+import {CountDown} from './countdown/countdown';
 
 const  PanelPlayer =(props)=> {
 

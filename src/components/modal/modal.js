@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "./components";
+import { Button } from "../components";
 
 class Modal extends React.Component {
     constructor(props) {
@@ -29,7 +29,6 @@ class Modal extends React.Component {
                     <div className="row">
                         <input type="text" id="name" name="name" onChange={this._handleChange.bind(this)} defaultValue={this.state.name} />
                         <Button onClick={() => this.state.outsideResolve(this.state.name)}>Aceptar</Button>
-              
                     </div>
                     <Button onClick={() => this.props.accept(false)}> Cancelar </Button>
               
