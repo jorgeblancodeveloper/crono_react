@@ -49,7 +49,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <section className={this.state.fade && "fade_out" }>
+      <section className={this.state.fade?"fade_out":"" }>
         <BrowserRouter>
         <Navigator
           location={store.getState().location}
