@@ -1,44 +1,57 @@
 import React from "react";
 import { Button, TimeFormat } from '../components';
 import { play_sound } from "../sounds/sounds";
+
 var outsideResolve;
 let mytimer;
 const CountDown = (props) => {
   // const [counter_now, setCounter_now] = React.useState(props.status.fight);
-  console.log("arranco ?", props.data)
+
   const [counter_now, setCounter_now] = React.useState(props.data.combate);
   let [my_status, setmy_status] = React.useState("clear");
   let [my_round, setmyRound] = React.useState(1);
   const [is_paused, setPaused] = React.useState(false);
-
+  const mp3background=new Audio("../media/manowar.mp3");
   React.useEffect(() => { setCounter_now(props.data.combate) }, [props.data.combate]);
 
   const starttimer = () => {
     if (my_status === "clear") {
       init_counter();
-
     } else {
+      mp3background.pause()
       if (is_paused) {
+    //    mp3background.play()
         init_counter(my_round);
       } else {
         clearInterval(mytimer);
+        console.log("lo paro");
+        mp3background.pause()
       }
       setPaused(!is_paused);
+
     }
   }
 
   const init_counter = async (myround) => {
+  //  mp3background.play();
+
+
     for (let n = (myround ? myround : 1); n <= props.data.asaltos; n++) {
       setmyRound(n);
       setmy_status("combate");
+      console.log("lo arranco")
+      if (mp3background.paused && ) {mp3background.play()}
       play_sound(props.data.sounds_asalto);
       await espera(counter_now);
       console.log("veo ", my_round, props.data.asaltos)
       if (n < props.data.asaltos) {
         setmy_status("rest");
+        mp3background.pause()
         play_sound(props.data.sounds_descanso)
         await espera(props.data.descanso)
       } else {
+        mp3background.pause()
+        mp3background.currentTime = 0;
         play_sound(props.data.sounds_fincombate)
         borra();
       }
@@ -50,7 +63,7 @@ const CountDown = (props) => {
     mytimer = setInterval(
       (e) => {
         setCounter_now(ms--);
-        console.log(ms, props.data.get_ready)
+       // console.log(ms, props.data.get_ready)
         if (ms == 10 && (props.data.get_ready==3 ||props.data.get_ready==4)) {
           play_sound(props.data.sounds_preaviso)
         };
@@ -59,7 +72,7 @@ const CountDown = (props) => {
           clearInterval(mytimer);
           resuelve()
         };
-      }, 200)
+      }, 500)
   }
 
   );

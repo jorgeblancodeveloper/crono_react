@@ -21,6 +21,7 @@ const DEFAULT_STATE = {
         sounds_asalto:0,
         sounds_descanso:4,
         sounds_fincombate:1,
+        combat_music:0
         
     },
     location: "main",

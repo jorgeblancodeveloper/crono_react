@@ -1,7 +1,5 @@
 import React from "react";
 import { NavLink, useHistory } from 'react-router-dom';
-
-import { Button } from '../components';
 const Navigator = (props) => {
   let history = useHistory();
   const navigateTo = (e, link) => {

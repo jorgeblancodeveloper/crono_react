@@ -4,7 +4,6 @@ export const soundLibrary = [
         name: "Campana",
         url: "/media/dong.mp3",
     },
-
     {
         name: "Buzzer",
         url: "/media/buzzer.mp3",
@@ -28,5 +27,4 @@ export const soundLibrary = [
 
 
 ]
-
 

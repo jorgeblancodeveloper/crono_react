@@ -37,8 +37,8 @@ class PanelMain extends React.Component {
 
     const preaviso = [
       "Ninguno",
-      "Asalto",
-      "Descanso",
+      "De asalto (10s)",
+      "De descanso (30s)",
       "Asalto y descanso"
     ]
     var show_button = !store.getState().actual_session.name ?

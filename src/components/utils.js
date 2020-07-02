@@ -1,33 +1,33 @@
 
-import React from "react";
+
 import store from '../store';
 import { actions } from "../redux/reducer";
 import { play_sound } from "./sounds/sounds";
 const changeState = (a, b) => {
-    store.dispatch(actions.changeState(a, b))
-  };
+  store.dispatch(actions.changeState(a, b))
+};
 
-  export {changeState};
+export { changeState };
 
-  const setState = (a, b) => {
-    store.dispatch(actions.setState(a, b))
-  };
+const setState = (a, b) => {
+  store.dispatch(actions.setState(a, b))
+};
 
-  export {setState};
+export { setState };
 
- const  changeStateLimit= (state,value,limit)=>{
-    (value+store.getState().actual_session[state])>limit-1?
-    setState("actual_session",{...store.getState().actual_session,[state]:0}):
-    (value+store.getState().actual_session[state])<0?
-    setState("actual_session",{...store.getState().actual_session,[state]:limit-1}):
-    changeState(state, value);
-    if (state.indexOf("sounds")!=-1){
-      play_sound(store.getState().actual_session[state])
-    }
-
+const changeStateLimit = (state, value, limit) => {
+  (value + store.getState().actual_session[state]) > limit - 1 ?
+    setState("actual_session", { ...store.getState().actual_session, [state]: 0 }) :
+    (value + store.getState().actual_session[state]) < 0 ?
+      setState("actual_session", { ...store.getState().actual_session, [state]: limit - 1 }) :
+      changeState(state, value);
+  if (state.indexOf("sounds") != -1) {
+    play_sound(store.getState().actual_session[state])
   }
 
-  export {changeStateLimit}
-  
- 
+}
+
+export { changeStateLimit }
+
+
 

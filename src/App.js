@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { Route, Switch, browserHistory,BrowserRouter } from 'react-router-dom';
+import { Route, Switch, browserHistory, BrowserRouter } from 'react-router-dom';
 
 import { PanelMain } from "./views/panel_main";
 
@@ -8,7 +8,7 @@ import { PanelMain } from "./views/panel_main";
 import { PanelPlayer } from "./components/panel_player";
 import { PanelConfig } from "./views/panel_config";
 import { PanelSessions } from "./views/panel_sessions";
-import {setState, changeState} from './components/utils.js';
+import { setState, changeState } from './components/utils.js';
 import { Navigator } from "./components/navigator/navigator";
 import store from './store';
 import { actions } from "./redux/reducer";
@@ -18,7 +18,7 @@ import { actions } from "./redux/reducer";
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {fade: false};
+    this.state = { fade: false };
   }
   onUnload = e => {
     localStorage.setItem('my_sessions', JSON.stringify(store.getState().sessions));
@@ -38,8 +38,8 @@ class App extends React.Component {
   }
 
   navigateTo = (e) => {
-   
-   this.setState({fade: e});
+
+    this.setState({ fade: e });
     // store.dispatch(actions.navigateTo(a));
   };
 
@@ -48,37 +48,38 @@ class App extends React.Component {
 
 
   render() {
+    console.log("mystate",store.getState().actual_session)
     return (
-      <section className={this.state.fade?"fade_out":"" }>
+      <section className={this.state.fade ? "fade_out" : ""}>
         <BrowserRouter>
-        <Navigator
-          location={store.getState().location}
-          navigateTo={a => {
-            this.navigateTo(a);
-          }}
-        />
-
-
-        <Switch>
-          <Route path="/main" component={PanelMain} />
-
-          <Route path="/config" render={() => <PanelConfig
-            changeState={(a, b) => {
-              changeState(a, b);
+          <Navigator
+            location={store.getState().location}
+            navigateTo={a => {
+              this.navigateTo(a);
             }}
-            setState={(a, b) => {
-              console.log("me llega ", a, b);
-              setState(a, b);
-            }}
-            mystate={store.getState()}
-          />} />
+          />
 
-          <Route path="/sessions"  component={PanelSessions}/>
-          <Route path="/player" component={PanelPlayer} />
 
-          <Route path="/" component={PanelMain} />
-        </Switch>
-    </BrowserRouter>
+          <Switch>
+            <Route path="/main" component={PanelMain} />
+
+            <Route path="/config" render={() => <PanelConfig
+              changeState={(a, b) => {
+                changeState(a, b);
+              }}
+              setState={(a, b) => {
+                console.log("me llega ", a, b);
+                setState(a, b);
+              }}
+              mystate={store.getState().actual_session}
+            />} />
+
+            <Route path="/sessions" component={PanelSessions} />
+            <Route path="/player" component={PanelPlayer} />
+
+            <Route path="/" component={PanelMain} />
+          </Switch>
+        </BrowserRouter>
       </section>
 
     );
